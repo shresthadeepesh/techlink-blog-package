@@ -11,5 +11,23 @@
     "require": {},
     "require-dev": {
         "orchestra/testbench": "^6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Techlink\\Blog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Techlink\\Blog\\Tests\\": "tests/",
+            "Techlink\\Blog\\Database\\Factories\\" : "database/factories"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Techlink\\Blog\\Providers\\BlogProvider"
+            ]
+        }
     }
 }
