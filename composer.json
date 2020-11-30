@@ -1,0 +1,15 @@
+{
+    "name": "techlink/blog",
+    "description": "A blog powered by laravel package.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dipesh Shrestha",
+            "email": "team7hookage@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "orchestra/testbench": "^6.4"
+    }
+}
