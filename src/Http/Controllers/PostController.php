@@ -3,6 +3,7 @@
 namespace Techlink\Blog\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Techlink\Blog\Http\Requests\PostRequest;
 use Techlink\Blog\Models\Post;
 
@@ -47,7 +48,7 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        $post = auth()->user()->posts()->create($request->all());
+        $post = Auth::user()->posts()->create($request->all());
         return redirect($post->path())->with('message', 'Post has been created.');
     }
 

@@ -8,8 +8,13 @@ trait SlugTrait
 {
     public function path()
     {
-        return route('blog::posts.show', [
-            'post' => $this->id,
+        $path = explode('\\', __CLASS__);
+        $a = Str::lower(array_pop($path));
+
+        $plural = Str::plural(($a));
+
+        return route("blog::{$plural}.show", [
+            "$a" => $this->id,
             'slug' => Str::slug($this->title)
         ]);
     }
