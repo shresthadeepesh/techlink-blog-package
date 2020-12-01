@@ -27,7 +27,9 @@ class PostRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required',
             'status' => 'boolean',
-            'type' => 'string'
+            'type' => 'string',
+            'categories' => 'required|array',
+            'categories.*' => 'exists:categories,id',
         ];
     }
 }

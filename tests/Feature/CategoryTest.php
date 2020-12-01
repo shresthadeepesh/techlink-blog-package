@@ -5,6 +5,7 @@ namespace Techlink\Blog\Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Techlink\Blog\Models\Post;
 use Techlink\Blog\Tests\TestCase;
 use Techlink\Blog\Models\Category;
 use Techlink\Blog\Tests\User;
@@ -61,7 +62,7 @@ class CategoryTest extends TestCase
         $this->actAs();
         $this->post(route('blog::categories.store'), $this->categoryData())
             ->assertStatus(302)
-            ->assertSessionHas('message', 'Category has been created.');
+            ->assertSessionHas(config('blog.flash_variable'), 'Category has been created.');
 
         $this->assertCount(1, Category::all());
 
@@ -109,7 +110,7 @@ class CategoryTest extends TestCase
         $category = Category::factory()->create();
         $this->put(route('blog::categories.update', ['category' => $category->id]), $this->categoryData())
             ->assertStatus(302)
-            ->assertSessionHas('message', 'Category has been updated.');
+            ->assertSessionHas(config('blog.flash_variable'), 'Category has been updated.');
 
         $this->assertDatabaseHas('categories', [
             'id' => 1,
@@ -127,12 +128,48 @@ class CategoryTest extends TestCase
         $category = Category::factory()->create();
         $this->delete(route('blog::categories.destroy', ['category' => $category->id]))
             ->assertStatus(302)
-            ->assertSessionHas('message', 'Category has been deleted.');
+            ->assertSessionHas(config('blog.flash_variable'), 'Category has been deleted.');
 
         $this->assertCount(0, Category::all());
 
         $this->assertDatabaseMissing('categories', [
             'id' => 1,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_is_able_to_delete_an_existing_category_among_with_the_synced_data()
+    {
+        $this->actAs();
+
+        $post = collect(Post::factory(2)->create()->modelKeys());
+        $category = Category::factory()->create();
+        $category->posts()->sync($post);
+
+        $this->delete(route('blog::categories.destroy', ['category' => $category->id]))
+            ->assertStatus(302)
+            ->assertSessionHas(config('blog.flash_variable'), 'Category has been deleted.');
+
+        $this->assertCount(0, Category::all());
+
+        $this->assertDatabaseMissing('categories', [
+            'id' => 1,
+        ]);
+
+        //checking whether the category are synced or not
+        $this->assertDatabaseMissing('category_post', [
+            [
+                [
+                    'category_id' => 1,
+                    'post_id' => 1,
+                ],
+                [
+                    'category_id' => 1,
+                    'post_id' => 1,
+                ],
+            ],
         ]);
     }
 }

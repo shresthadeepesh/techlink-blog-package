@@ -5,6 +5,7 @@ namespace Techlink\Blog\Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Techlink\Blog\Models\Category;
 use Techlink\Blog\Tests\TestCase;
 use Techlink\Blog\Models\Post;
 use Techlink\Blog\Tests\User;
@@ -21,11 +22,14 @@ class PostTest extends TestCase
 
     private function postData()
     {
+        $category = collect(Category::factory(2)->create()->modelKeys());
+
         return [
             'title' => 'A new post is here.',
             'description' => 'This is the post description',
             'type' => 'standard',
-            'status' => true
+            'status' => true,
+            'categories' => [$category[0], $category[1]],
         ];
     }
 
@@ -71,11 +75,13 @@ class PostTest extends TestCase
      */
     public function test_it_is_able_to_create_a_new_post()
     {
+        $this->withoutExceptionHandling();
+
         $this->actAs();
 
         $this->post(route('blog::posts.store'), $this->postData())
             ->assertStatus(302)
-            ->assertSessionHas('message', 'Post has been created.');
+            ->assertSessionHas(config('blog.flash_variable'), 'Post has been created.');
 
         $this->assertDatabaseHas('posts', [
             'id' => 1,
@@ -83,6 +89,20 @@ class PostTest extends TestCase
             'description' => 'This is the post description',
             'type' => 'standard',
             'status' => true
+        ]);
+
+        //checking whether the category are synced or not
+        $this->assertDatabaseHas('category_post', [
+            [
+                [
+                    'category_id' => 1,
+                    'post_id' => 1,
+                ],
+                [
+                    'category_id' => 2,
+                    'post_id' => 1,
+                ],
+            ],
         ]);
     }
 
@@ -97,11 +117,46 @@ class PostTest extends TestCase
 
         $this->delete(route('blog::posts.destroy', ['post' => $post->id]))
             ->assertStatus(302)
-            ->assertSessionHas('message', 'Post has been deleted.');
+            ->assertSessionHas(config('blog.flash_variable'), 'Post has been deleted.');
+
+        $this->assertDatabaseMissing('posts', [
+            'id' => 1,
+            'title' => $post->title,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_is_able_to_delete_an_existing_post_among_with_the_synced_data()
+    {
+        $this->actAs();
+
+        $post = Post::factory()->create();
+        $category = collect(Category::factory(2)->create()->modelKeys());
+        $post->categories()->sync($category);
+
+        $this->delete(route('blog::posts.destroy', ['post' => $post->id]))
+            ->assertStatus(302)
+            ->assertSessionHas(config('blog.flash_variable'), 'Post has been deleted.');
 
         $this->assertDatabaseMissing('posts', [
            'id' => 1,
            'title' => $post->title,
+        ]);
+
+        //checking whether the category are synced or not
+        $this->assertDatabaseMissing('category_post', [
+            [
+                [
+                    'category_id' => 1,
+                    'post_id' => 1,
+                ],
+                [
+                    'category_id' => 1,
+                    'post_id' => 1,
+                ],
+            ],
         ]);
     }
 
@@ -131,7 +186,7 @@ class PostTest extends TestCase
 
         $this->put(route('blog::posts.update', ['post' => $post->id]), $this->postData())
             ->assertStatus(302)
-            ->assertSessionHas('message', 'Post has been updated.');
+            ->assertSessionHas(config('blog.flash_variable'), 'Post has been updated.');
 
         $this->assertDatabaseHas('posts', [
             'id' => 1,
@@ -139,6 +194,20 @@ class PostTest extends TestCase
             'description' => 'This is the post description',
             'type' => 'standard',
             'status' => true
+        ]);
+
+        //checking whether the category are synced or not
+        $this->assertDatabaseHas('category_post', [
+            [
+                [
+                    'category_id' => 1,
+                    'post_id' => 1,
+                ],
+                [
+                    'category_id' => 2,
+                    'post_id' => 1,
+                ],
+            ],
         ]);
     }
 }

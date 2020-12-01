@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Techlink\Blog\View\Components\Alert;
 
 class BlogProvider extends ServiceProvider
 {
@@ -16,7 +17,9 @@ class BlogProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/blog.php', 'blog'
+        );
     }
 
     /**
@@ -31,6 +34,7 @@ class BlogProvider extends ServiceProvider
 
         $this->registerResources();
         $this->bootViewComposers();
+        $this->loadViewComponents();
 
         //using the bootstrap paginator
         Paginator::useBootstrap();
@@ -75,6 +79,11 @@ class BlogProvider extends ServiceProvider
      */
     private function registerPublishable()
     {
+        //config
+        $this->publishes([
+            __DIR__.'/../../config/' => config_path('blog.php'),
+        ], 'config');
+
         //publishing public files
         $this->publishes([
             __DIR__ . '/../../public/assets' => public_path('vendor/techlink/blog')
@@ -99,5 +108,12 @@ class BlogProvider extends ServiceProvider
     private function bootViewComposers()
     {
         //
+    }
+
+    private function loadViewComponents()
+    {
+        $this->loadViewComponentsAs('blog', [
+            Alert::class
+        ]);
     }
 }

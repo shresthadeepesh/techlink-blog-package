@@ -4,6 +4,7 @@ namespace Techlink\Blog\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Techlink\Blog\Http\Requests\PostRequest;
 use Techlink\Blog\Models\Post;
 
@@ -48,8 +49,20 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        $post = Auth::user()->posts()->create($request->all());
-        return redirect($post->path())->with('message', 'Post has been created.');
+        $post = DB::transaction(function() use ($request) {
+            $post = Auth::user()->posts()->create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'type' => $request->type,
+                'status' => $request->status,
+            ]);
+
+            $post->categories()->sync($request->categories);
+
+            return $post;
+        });
+
+        return redirect($post->path())->with(config('blog.flash_variable'), 'Post has been created.');
     }
 
     /**
@@ -63,8 +76,18 @@ class PostController extends Controller
 
     public function update(PostRequest $request, Post $post)
     {
-        $post->update($request->all());
-        return redirect($post->path())->with('message', 'Post has been updated.');
+        DB::transaction(function() use ($request, $post) {
+            $post->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'type' => $request->type,
+                'status' => $request->status,
+            ]);
+
+            $post->categories()->sync($request->categories);
+        });
+
+        return redirect($post->path())->with(config('blog.flash_variable'), 'Post has been updated.');
     }
 
     /**
@@ -75,10 +98,10 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if($post->delete()) {
-            return redirect()->route('blog::posts.index')->with('message', 'Post has been deleted.');
+            return redirect()->route('blog::posts.index')->with(config('blog.flash_variable'), 'Post has been deleted.');
         }
 
-        return redirect()->back()->with('message', 'Something went wrong.');
+        return redirect()->back()->with(config('blog.flash_variable'), 'Something went wrong.');
     }
 
 }

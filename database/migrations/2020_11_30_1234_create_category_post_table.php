@@ -15,7 +15,7 @@ class CreateCategoryPosttable extends Migration
         Schema::create('category_post', function(Blueprint $table) {
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('post_id')->constrained('posts')->onDelete('cascade');
-            $table->primary(['category_id', 'primary_id']);
+            $table->primary(['category_id', 'post_id']);
         });
     }
 

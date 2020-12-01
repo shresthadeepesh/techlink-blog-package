@@ -39,7 +39,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         Auth::user()->categories()->create($request->all());
-        return redirect()->route('blog::categories.index')->with('message', 'Category has been created.');
+        return redirect()->route('blog::categories.index')->with(config('blog.flash_variable'), 'Category has been created.');
     }
 
     /**
@@ -59,14 +59,14 @@ class CategoryController extends Controller
     public function update(Category $category, CategoryRequest $request)
     {
         $category->update($request->all());
-        return redirect()->route('blog::categories.index')->with('message', 'Category has been updated.');
+        return redirect()->route('blog::categories.index')->with(config('blog.flash_variable'), 'Category has been updated.');
     }
 
     public function destroy(Category $category)
     {
         if($category->delete()) {
-            return redirect()->route('blog::categories.index')->with('message', 'Category has been deleted.');
+            return redirect()->route('blog::categories.index')->with(config('blog.flash_variable'), 'Category has been deleted.');
         }
-        return redirect()->back()->with('message', 'Something went wrong.');
+        return redirect()->back()->with(config('blog.flash_variable'), 'Something went wrong.');
     }
 }
