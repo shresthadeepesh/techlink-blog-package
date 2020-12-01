@@ -10,6 +10,9 @@ class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        //creating the users
+        User::factory(10)->create();
     }
 
     protected function getPackageProviders($app)

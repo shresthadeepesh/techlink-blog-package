@@ -4,6 +4,7 @@ namespace Techlink\Blog\Database\Factories;
 
 use Techlink\Blog\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Techlink\Blog\Tests\User;
 
 class PostFactory extends Factory
 {
@@ -21,11 +22,14 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $user = collect(User::all()->modelKeys());
+
         return [
             'title' => $this->faker->sentence,
-            'description' => $this->faker->sentence,
+            'description' => $this->faker->paragraph($nbSentences = 30, $variableNbSentences = true),
             'status' => 1,
             'type' => 'standard',
+            'user_id' => $this->faker->randomElement($user),
         ];
     }
 }

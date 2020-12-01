@@ -47,7 +47,7 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        $post = Post::create($request->all());
+        $post = auth()->user()->posts()->create($request->all());
         return redirect($post->path())->with('message', 'Post has been created.');
     }
 
@@ -76,6 +76,8 @@ class PostController extends Controller
         if($post->delete()) {
             return redirect()->route('blog::posts.index')->with('message', 'Post has been deleted.');
         }
+
+        return redirect()->back()->with('message', 'Something went wrong.');
     }
 
 }

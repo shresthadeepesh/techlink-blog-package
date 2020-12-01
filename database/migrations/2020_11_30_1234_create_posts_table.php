@@ -18,6 +18,7 @@ class CreatePoststable extends Migration
             $table->mediumText('description');
             $table->string('type')->default('standard');
             $table->boolean('status')->default(0);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
