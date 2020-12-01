@@ -14,13 +14,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Techlink\\Blog\\": "src/"
+            "Techlink\\Blog\\": "src/",
+            "Techlink\\Blog\\Database\\Factories\\" : "database/factories",
+            "Techlink\\Blog\\Database\\Seeders\\" : "database/seeders"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Techlink\\Blog\\Tests\\": "tests/",
-            "Techlink\\Blog\\Database\\Factories\\" : "database/factories"
+            "Techlink\\Blog\\Tests\\": "tests/"
         }
     },
     "extra": {

@@ -14,6 +14,14 @@ class PostTest extends TestCase
 {
     use RefreshDatabase, DatabaseMigrations;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        //creating the users
+        User::factory(10)->create();
+    }
+
     private function actAs()
     {
         $user = User::factory()->create();

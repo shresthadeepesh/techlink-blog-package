@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Techlink\Blog\Console\Commands\BlogCommand;
 use Techlink\Blog\View\Components\Alert;
 
 class BlogProvider extends ServiceProvider
@@ -30,10 +31,17 @@ class BlogProvider extends ServiceProvider
     {
         if($this->app->runningInConsole()) {
             $this->registerPublishable();
+
+            //registering the commands
+            $this->commands([
+                BlogCommand::class
+            ]);
         }
 
         $this->registerResources();
+
         $this->bootViewComposers();
+
         $this->loadViewComponents();
 
         //using the bootstrap paginator
@@ -69,7 +77,6 @@ class BlogProvider extends ServiceProvider
           'middleware' => ['web'],
           'as' => 'blog::',
           'prefix' => 'blog',
-//          'namespace' => 'Techlink\Blog\Http\Controllers',
         ];
     }
 
@@ -81,7 +88,7 @@ class BlogProvider extends ServiceProvider
     {
         //config
         $this->publishes([
-            __DIR__.'/../../config/' => config_path('blog.php'),
+            __DIR__ . '/../../config/blog.php' => config_path('blog.php'),
         ], 'config');
 
         //publishing public files

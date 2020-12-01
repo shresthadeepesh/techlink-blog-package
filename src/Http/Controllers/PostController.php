@@ -17,6 +17,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::ofStatus(Post::$published)
+            ->with('users', 'categories')
             ->latest()
             ->paginate(5);
         return view('blog::posts.index', compact('posts'));
@@ -30,6 +31,7 @@ class PostController extends Controller
     public function show($post)
     {
         $post = Post::ofStatus(Post::$published)
+            ->with('users', 'categories')
             ->firstOrFail();
         return view('blog::posts.show', compact('post'));
     }
@@ -74,6 +76,11 @@ class PostController extends Controller
         return view('blog::posts.edit', compact('post'));
     }
 
+    /**
+     * @param PostRequest $request
+     * @param Post $post
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function update(PostRequest $request, Post $post)
     {
         DB::transaction(function() use ($request, $post) {
