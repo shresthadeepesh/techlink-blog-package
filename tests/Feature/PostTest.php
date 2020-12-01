@@ -12,6 +12,16 @@ class PostTest extends TestCase
 {
     use RefreshDatabase, DatabaseMigrations;
 
+    private function postData()
+    {
+        return [
+            'title' => 'A new post is here.',
+            'description' => 'This is the post description',
+            'type' => 'standard',
+            'status' => true
+        ];
+    }
+
     /**
      * @test
      */
@@ -19,7 +29,7 @@ class PostTest extends TestCase
     {
         Post::factory(50)->create();
 
-        $this->get('/blog/posts')->assertOk()
+        $this->get(route('blog::posts.index'))->assertOk()
             ->assertViewIs('blog::posts.index')
             ->assertViewHas('posts');
     }
@@ -31,8 +41,87 @@ class PostTest extends TestCase
     {
         $post = Post::factory()->create();
 
-        $this->get("/blog/posts/{$post->id}")->assertOk()
+        $this->get($post->path())->assertOk()
             ->assertViewIs('blog::posts.show')
             ->assertViewHas('post');
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_returns_post_create_view()
+    {
+        $this->get(route('blog::posts.create'))
+            ->assertOk()
+            ->assertViewIs('blog::posts.create')
+            ->assertViewHas('post');
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_is_able_to_create_a_new_post()
+    {
+        $this->post(route('blog::posts.store'), $this->postData())
+            ->assertStatus(302)
+            ->assertSessionHas('message', 'Post has been created.');
+
+        $this->assertDatabaseHas('posts', [
+            'id' => 1,
+            'title' => 'A new post is here.',
+            'description' => 'This is the post description',
+            'type' => 'standard',
+            'status' => true
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_is_able_to_delete_an_existing_post()
+    {
+        $post = Post::factory()->create();
+
+        $this->delete(route('blog::posts.destroy', ['post' => $post->id]))
+            ->assertStatus(302)
+            ->assertSessionHas('message', 'Post has been deleted.');
+
+        $this->assertDatabaseMissing('posts', [
+           'id' => 1,
+           'title' => $post->title,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_returns_post_edit_view()
+    {
+        $post = Post::factory()->create();
+
+        $this->get(route('blog::posts.edit', ['post' => $post->id]))
+            ->assertOk()
+            ->assertViewIs('blog::posts.edit')
+            ->assertViewHas('post');
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_is_able_to_update_an_existing_post()
+    {
+        $post = Post::factory()->create();
+
+        $this->put(route('blog::posts.update', ['post' => $post->id]), $this->postData())
+            ->assertStatus(302)
+            ->assertSessionHas('message', 'Post has been updated.');
+
+        $this->assertDatabaseHas('posts', [
+            'id' => 1,
+            'title' => 'A new post is here.',
+            'description' => 'This is the post description',
+            'type' => 'standard',
+            'status' => true
+        ]);
     }
 }

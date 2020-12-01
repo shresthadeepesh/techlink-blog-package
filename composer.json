@@ -29,5 +29,9 @@
                 "Techlink\\Blog\\Providers\\BlogProvider"
             ]
         }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-f": "phpunit --filter"
     }
 }

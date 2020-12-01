@@ -11,7 +11,7 @@
                         <div class="card shadow">
                             <div class="card-body">
                                 <h3 class="">
-                                    <a href="{{ route('techlink.blog.posts.show',  ['post' => $post->id]) }}">{{ $post->title ?? 'This is the default post header.' }}</a>
+                                    <a href="{{ $post->path() }}">{{ $post->title ?? 'This is the default post header.' }}</a>
                                 </h3>
                                 <p class="lead">{{ $post->description ?? null }}</p>
                             </div>

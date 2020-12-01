@@ -63,7 +63,7 @@ class BlogProvider extends ServiceProvider
     {
         return [
           'middleware' => ['web'],
-          'as' => 'techlink.blog.',
+          'as' => 'blog::',
           'prefix' => 'blog',
 //          'namespace' => 'Techlink\Blog\Http\Controllers',
         ];

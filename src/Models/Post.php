@@ -5,10 +5,11 @@ namespace Techlink\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Techlink\Blog\Traits\HasFactoryTrait;
+use Techlink\Blog\Traits\SlugTrait;
 
 class Post extends Model
 {
-    use HasFactoryTrait;
+    use HasFactoryTrait, SlugTrait;
 
     protected $fillable = [
         'title', 'description', 'status', 'type',
