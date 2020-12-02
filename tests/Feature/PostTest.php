@@ -76,8 +76,8 @@ class PostTest extends TestCase
 
         $this->get(route('blog::posts.create'))
             ->assertOk()
-            ->assertViewIs('blog::posts.create')
-            ->assertViewHas('post');
+            ->assertViewIs('blog::forms.create')
+            ->assertViewHas('model');
     }
 
     /**
@@ -181,8 +181,8 @@ class PostTest extends TestCase
 
         $this->get(route('blog::posts.edit', ['post' => $post->id]))
             ->assertOk()
-            ->assertViewIs('blog::posts.edit')
-            ->assertViewHas('post');
+            ->assertViewIs('blog::forms.edit')
+            ->assertViewHas('model');
     }
 
     /**

@@ -6,10 +6,10 @@
     <div class="container">
         <div class="card shadow">
             <div class="card-body">
-                <form action="{{ route('blog::posts.store') }}" method="POST">
+                <form action="{{ route("blog::{$modelName}.store") }}" method="POST">
                     @method('POST')
                     @csrf
-                    @include('blog::posts.form')
+                    @include("blog::{$modelName}.form")
                 </form>
             </div>
         </div>

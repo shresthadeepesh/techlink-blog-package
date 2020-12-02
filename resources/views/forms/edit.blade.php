@@ -6,10 +6,10 @@
     <div class="container">
         <div class="card shadow">
             <div class="card-body">
-                <form action="{{ route('blog::posts.update', ['post' => $post->id]) }}" method="POST">
+                <form action="{{ route("blog::{$modelName}.update", $model->id) }}" method="POST">
                     @method('PUT')
                     @csrf
-                    @include('blog::posts.form')
+                    @include("blog::{$modelName}.form")
                 </form>
             </div>
         </div>

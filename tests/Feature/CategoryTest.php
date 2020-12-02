@@ -90,8 +90,8 @@ class CategoryTest extends TestCase
 
         $this->get(route('blog::categories.create'))
             ->assertOk()
-            ->assertViewIs('blog::categories.create')
-            ->assertViewHas('category');
+            ->assertViewIs('blog::forms.create')
+            ->assertViewHas('model');
     }
 
     /**
@@ -99,14 +99,16 @@ class CategoryTest extends TestCase
      */
     public function test_it_returns_category_edit_view()
     {
+        $this->withoutExceptionHandling();
+
         $this->actAs();
 
         $category = Category::factory()->create();
 
         $this->get(route('blog::categories.edit', ['category' => $category->id]))
             ->assertOk()
-            ->assertViewIs('blog::categories.edit')
-            ->assertViewHas('category');
+            ->assertViewIs('blog::forms.edit')
+            ->assertViewHas('model');
     }
 
     /**

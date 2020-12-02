@@ -1,13 +1,16 @@
 <div class="form-group">
     <label for="{{ $name }}">{{ $label }}</label>
     <select
-            class="form-control @error($errorName) is-invalid @enderror"
+            class="form-control custom-select @error($errorName) is-invalid @enderror"
             name="{{ $name }}"
             {{ $multiple ? 'multiple' : '' }}>
+        <option value="">Choose a {{ Str::singular($errorName) }}</option>
         @foreach($options as $value => $key)
             <option
                     value="{{ $value }}"
-                    {{ ($selected && in_array($value, $selected)) ? 'selected' : '' }}
+{{--                    if the mutiple is false then the array is not present--}}
+{{--                    else then check inside the array--}}
+                    {{ (!$multiple && $selected) ? ($selected === $value ? 'selected' : '') : ($selected && in_array($value, $selected) ? 'selected' : '')   }}
             >{{ $key }}</option>
         @endforeach
     </select>

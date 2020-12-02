@@ -9,6 +9,8 @@ use Techlink\Blog\Models\Category;
 
 class CategoryController extends Controller
 {
+    private $modelName = 'categories';
+
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -33,7 +35,10 @@ class CategoryController extends Controller
      */
     public function create(Category $category)
     {
-        return view('blog::categories.create', compact('category'));
+        return view('blog::forms.create', [
+            'model' => $category,
+            'modelName' => $this->modelName
+        ]);
     }
 
     /**
@@ -52,7 +57,10 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('blog::categories.edit', compact('category'));
+        return view('blog::forms.edit', [
+            'model' => $category,
+            'modelName' => $this->modelName
+        ]);
     }
 
     /**

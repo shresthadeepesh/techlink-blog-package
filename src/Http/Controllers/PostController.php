@@ -11,6 +11,8 @@ use Techlink\Blog\Models\Post;
 
 class PostController extends Controller
 {
+    private $modelName = 'posts';
+
     /**
      * Index Post view
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -45,7 +47,11 @@ class PostController extends Controller
     public function create(Post $post)
     {
         $category = Category::all()->pluck('title', 'id');
-        return view('blog::posts.create', compact('post', 'category'));
+        return view('blog::forms.create', [
+            'model' => $post,
+            'category' => $category,
+            'modelName' => $this->modelName,
+        ]);
     }
 
     /**
@@ -77,7 +83,11 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $category = Category::all()->pluck('title', 'id');
-        return view('blog::posts.edit', compact('post', 'category'));
+        return view('blog::forms.edit', [
+            'model' => $post,
+            'category' => $category,
+            'modelName' => $this->modelName,
+        ]);
     }
 
     /**
