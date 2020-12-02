@@ -40,7 +40,16 @@ class AuthCategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        Auth::user()->categories()->create($request->all());
+        $category = Auth::user()->categories()->create($request->all());
+
+        //if upload image is available
+        if($request->file('image')) {
+            $path = $request->file('image')->store('images');
+            $category->images()->create([
+                'url' => $path
+            ]);
+        }
+
         return redirect()->route('blog::categories.auth.index')->with(config('blog.flash_variable'), 'Category has been created.');
     }
 
@@ -64,6 +73,13 @@ class AuthCategoryController extends Controller
     public function update(Category $category, CategoryRequest $request)
     {
         $category->update($request->all());
+        //if upload image is available
+        if($request->file('image')) {
+            $path = $request->file('image')->store('images');
+            $category->images()->updateOrCreate([
+                'url' => $path
+            ]);
+        }
         return redirect()->route('blog::categories.auth.index')->with(config('blog.flash_variable'), 'Category has been updated.');
     }
 

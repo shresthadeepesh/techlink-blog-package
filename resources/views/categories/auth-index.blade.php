@@ -18,6 +18,7 @@
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Posts</th>
+                                <th>User</th>
                                 <th>Created</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -29,6 +30,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $category->title }}</td>
                                 <td>{{ $category->posts_count }}</td>
+                                <td>{{ $category->users->name}}</td>
                                 <td>{{ $category->created_at->diffForHumans() }}</td>
                                 <td><a href="{{ route('blog::categories.auth.edit', $category->id) }}" class="btn btn-success">Edit</a></td>
                                 <td>

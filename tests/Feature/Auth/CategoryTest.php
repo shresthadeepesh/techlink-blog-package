@@ -5,6 +5,8 @@ namespace Techlink\Blog\Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Techlink\Blog\Models\Post;
 use Techlink\Blog\Tests\TestCase;
 use Techlink\Blog\Models\Category;
@@ -67,6 +69,30 @@ class CategoryTest extends TestCase
     /**
      * @test
      */
+    public function test_it_is_able_to_create_a_new_category_including_image()
+    {
+        Storage::fake('images');
+
+        $file = UploadedFile::fake()->image('category.jpg');
+
+        $this->post(route('blog::categories.auth.store'), array_merge($this->categoryData(), [
+            'image' => $file
+        ]))->assertStatus(302)
+            ->assertSessionHas(config('blog.flash_variable'), 'Category has been created.');
+
+        $this->assertCount(1, Category::all());
+
+        $this->assertDatabaseHas('images', [
+            'id' => 1,
+        ]);
+
+        // Assert the file was stored...
+//        Storage::disk('images')->assertExists($file->hashName());
+    }
+
+    /**
+     * @test
+     */
     public function test_it_returns_category_create_view()
     {
         $this->get(route('blog::categories.auth.create'))
@@ -102,6 +128,32 @@ class CategoryTest extends TestCase
             'title' => 'A new post is here.',
             'description' => 'This is the post description',
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_is_able_to_update_an_existing_category_including_image()
+    {
+        Storage::fake('images');
+
+        $file = UploadedFile::fake()->image('category.jpg');
+
+        $category = Category::factory()->create();
+
+        $this->put(route('blog::categories.auth.update', ['category' => $category->id]), array_merge($this->categoryData(), [
+            'image' => $file
+        ]))->assertStatus(302)
+            ->assertSessionHas(config('blog.flash_variable'), 'Category has been updated.');
+
+        $this->assertCount(1, Category::all());
+
+        $this->assertDatabaseHas('images', [
+            'id' => 1,
+        ]);
+
+        // Assert the file was stored...
+//        Storage::disk('images')->assertExists($file->hashName());
     }
 
     /**
@@ -153,5 +205,42 @@ class CategoryTest extends TestCase
                 ],
             ],
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_is_able_to_delete_an_existing_category_including_image()
+    {
+        Storage::fake('images');
+
+        $file = UploadedFile::fake()->image('category.jpg');
+
+        //creating a new category
+        $category = Category::factory()->create();
+
+        //updating the category with image
+        $this->put(route('blog::categories.auth.update', ['category' => $category->id]), array_merge($this->categoryData(), [
+            'image' => $file
+        ]))->assertStatus(302)
+            ->assertSessionHas(config('blog.flash_variable'), 'Category has been updated.');
+
+        $this->assertCount(1, Category::all());
+
+        $this->assertDatabaseHas('images', [
+            'id' => 1,
+        ]);
+
+        //deleting
+        $this->delete(route('blog::categories.auth.destroy', ['category' => $category->id]))
+            ->assertStatus(302)
+            ->assertSessionHas(config('blog.flash_variable'), 'Category has been deleted.');
+
+        $this->assertDatabaseMissing('images', [
+            'id' => 1,
+        ]);
+
+        // Assert the file was stored...
+        Storage::disk('images')->assertMissing($file->hashName());
     }
 }

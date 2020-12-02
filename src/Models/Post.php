@@ -6,11 +6,12 @@ namespace Techlink\Blog\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Techlink\Blog\Traits\HasFactoryTrait;
+use Techlink\Blog\Traits\ImageTrait;
 use Techlink\Blog\Traits\SlugTrait;
 
 class Post extends Model
 {
-    use HasFactoryTrait, SlugTrait;
+    use HasFactoryTrait, SlugTrait, ImageTrait;
 
     protected $fillable = [
         'title', 'description', 'status', 'type', 'user_id'
@@ -26,11 +27,19 @@ class Post extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function categories()
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    /**
+     * attaching image relation
+     */
+    public function images()
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 }

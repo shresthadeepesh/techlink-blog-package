@@ -21,7 +21,7 @@ class AuthPostController extends Controller
     {
         $posts = Post::with('users', 'categories')
             ->latest()
-            ->paginate(5);
+            ->paginate(config('blog.auth_model_paginate'));
         return view('blog::posts.auth-index', compact('posts'));
     }
 

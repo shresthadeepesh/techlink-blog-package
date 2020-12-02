@@ -6,7 +6,7 @@
     <div class="container">
         <div class="card shadow">
             <div class="card-body">
-                <form action="{{ route("blog::{$modelName}.auth.store") }}" method="POST">
+                <form action="{{ route("blog::{$modelName}.auth.store") }}" method="POST" enctype="multipart/form-data">
                     @method('POST')
                     @csrf
                     @include("blog::{$modelName}.form")

@@ -16,7 +16,7 @@ class PostController extends Controller
         $posts = Post::ofStatus(Post::$published)
             ->with('users', 'categories')
             ->latest()
-            ->paginate(config('blog.auth_model_paginate'));
+            ->paginate(5);
         return view('blog::posts.index', compact('posts'));
     }
 
