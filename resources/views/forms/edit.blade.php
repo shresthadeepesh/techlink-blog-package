@@ -1,6 +1,6 @@
 @extends('blog::layouts.master')
 
-@section('title', 'Edit Post | Blog')
+@section('title', 'Edit ' . Str::singular(Str::title($modelName)) . ' | Blog')
 
 @section('content')
     <div class="container">

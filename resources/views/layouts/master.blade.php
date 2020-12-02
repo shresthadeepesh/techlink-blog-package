@@ -15,7 +15,6 @@
 </head>
 <body>
     <x-blog-alert></x-blog-alert>
-
     @yield('content')
 </body>
 </html>

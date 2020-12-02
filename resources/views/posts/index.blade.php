@@ -9,9 +9,9 @@
                     @foreach($posts as $post)
                         <x-blog-post-block :post="$post" />
                     @endforeach
-                    <div class="mr-auto">
-                        {{ $posts->links() }}
-                    </div>
+                </div>
+                <div class="mx-auto">
+                    {{ $posts->links() }}
                 </div>
             @endif
     </div>
