@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\View;
 use Techlink\Blog\Console\Commands\BlogCommand;
 use Techlink\Blog\View\Components\Alert;
 use Techlink\Blog\View\Components\InputSelect;
+use Techlink\Blog\View\Components\InputSubmit;
 use Techlink\Blog\View\Components\InputText;
 use Techlink\Blog\View\Components\InputTextarea;
 use Techlink\Blog\View\Components\PostBlock;
@@ -129,6 +130,7 @@ class BlogProvider extends ServiceProvider
             InputText::class,
             InputTextarea::class,
             InputSelect::class,
+            InputSubmit::class,
         ]);
     }
 }

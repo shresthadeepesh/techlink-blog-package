@@ -6,9 +6,11 @@
     <div class="container">
             @if(isset($posts) && $posts->count() > 0)
                 <div class="row">
-                    @foreach($posts as $post)
+                    @forelse($posts as $post)
                         <x-blog-post-block :post="$post" />
-                    @endforeach
+                    @empty
+                        <h3 class="">No posts found!</h3>
+                    @endforelse
                 </div>
                 <div class="mx-auto">
                     {{ $posts->links() }}

@@ -1,12 +1,12 @@
 @extends('blog::layouts.master')
 
-@section('title', 'Edit ' . Str::singular(Str::title($modelName)) . ' | Blog')
+@section('title', 'Edit ' . Str::singular(Str::title($modelName)))
 
 @section('content')
     <div class="container">
         <div class="card shadow">
             <div class="card-body">
-                <form action="{{ route("blog::{$modelName}.update", $model->id) }}" method="POST">
+                <form action="{{ route("blog::{$modelName}.auth.update", $model->id) }}" method="POST">
                     @method('PUT')
                     @csrf
                     @include("blog::{$modelName}.form")

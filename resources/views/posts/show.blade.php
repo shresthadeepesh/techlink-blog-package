@@ -1,6 +1,6 @@
 @extends('blog::layouts.master')
 
-@section('title', "$post->title | Blog")
+@section('title', "$post->title")
 
 @section('content')
     <div class="container">
