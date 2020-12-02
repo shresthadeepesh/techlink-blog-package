@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Techlink\Blog\Http\Requests\PostRequest;
+use Techlink\Blog\Models\Category;
 use Techlink\Blog\Models\Post;
 
 class PostController extends Controller
@@ -38,11 +39,13 @@ class PostController extends Controller
 
 
     /**
+     * @param Post $post
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create(Post $post)
     {
-        return view('blog::posts.create', compact('post'));
+        $category = Category::all()->pluck('title', 'id');
+        return view('blog::posts.create', compact('post', 'category'));
     }
 
     /**
@@ -73,7 +76,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('blog::posts.edit', compact('post'));
+        $category = Category::all()->pluck('title', 'id');
+        return view('blog::posts.edit', compact('post', 'category'));
     }
 
     /**

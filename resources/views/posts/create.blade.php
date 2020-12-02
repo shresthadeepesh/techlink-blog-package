@@ -5,10 +5,13 @@
 @section('content')
     <div class="container">
         <div class="card shadow">
-            <form action="{{ route('blog::posts.store') }}" method="POST">
-                @method('POST')
-                @include('blog::posts.form')
-            </form>
+            <div class="card-body">
+                <form action="{{ route('blog::posts.store') }}" method="POST">
+                    @method('POST')
+                    @csrf
+                    @include('blog::posts.form')
+                </form>
+            </div>
         </div>
     </div>
 @endsection

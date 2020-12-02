@@ -46,6 +46,8 @@ class PostTest extends TestCase
      */
     public function test_it_returns_list_of_posts_with_data()
     {
+        $this->withoutExceptionHandling();
+
         Post::factory(50)->create();
 
         $this->get(route('blog::posts.index'))->assertOk()
