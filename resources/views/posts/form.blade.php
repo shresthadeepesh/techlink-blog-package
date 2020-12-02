@@ -32,4 +32,9 @@
             label="Select Status"
     />
 
+    <x-blog-input-file
+            name="image"
+            label="Choose file"
+    />
+
     <x-blog-input-submit />

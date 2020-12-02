@@ -14,5 +14,12 @@ trait ImageTrait
                 Storage::delete($model->images->url);
             }
         });
+
+        static::updated(function($model) {
+            //deleting existing image
+            if($model->images) {
+                Storage::delete($model->image->url);
+            }
+        });
     }
 }

@@ -6,10 +6,18 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Techlink\Blog\Http\Requests\CategoryRequest;
 use Techlink\Blog\Models\Category;
+use Techlink\Blog\Services\BlogService;
 
 class AuthCategoryController extends Controller
 {
     private $modelName = 'categories';
+
+    private $service;
+
+    public function __construct(BlogService $service)
+    {
+        $this->service = $service;
+    }
 
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -42,13 +50,8 @@ class AuthCategoryController extends Controller
     {
         $category = Auth::user()->categories()->create($request->all());
 
-        //if upload image is available
-        if($request->file('image')) {
-            $path = $request->file('image')->store('images');
-            $category->images()->create([
-                'url' => $path
-            ]);
-        }
+        //storing image
+        $this->service->addImage($request, $category);
 
         return redirect()->route('blog::categories.auth.index')->with(config('blog.flash_variable'), 'Category has been created.');
     }
@@ -73,13 +76,10 @@ class AuthCategoryController extends Controller
     public function update(Category $category, CategoryRequest $request)
     {
         $category->update($request->all());
-        //if upload image is available
-        if($request->file('image')) {
-            $path = $request->file('image')->store('images');
-            $category->images()->updateOrCreate([
-                'url' => $path
-            ]);
-        }
+
+        //storing image
+        $this->service->addImage($request, $category);
+
         return redirect()->route('blog::categories.auth.index')->with(config('blog.flash_variable'), 'Category has been updated.');
     }
 
@@ -91,6 +91,7 @@ class AuthCategoryController extends Controller
     public function destroy(Category $category)
     {
         if($category->delete()) {
+            $category->images()->delete();
             return redirect()->route('blog::categories.auth.index')->with(config('blog.flash_variable'), 'Category has been deleted.');
         }
         return redirect()->back()->with(config('blog.flash_variable'), 'Something went wrong.');

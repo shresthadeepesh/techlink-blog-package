@@ -26,7 +26,7 @@ class CategoryRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:512'
+            'image' => 'nullable|file|mimes:jpeg,jpg,png|max:512'
         ];
     }
 }

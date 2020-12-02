@@ -8,10 +8,18 @@ use Illuminate\Support\Facades\DB;
 use Techlink\Blog\Http\Requests\PostRequest;
 use Techlink\Blog\Models\Category;
 use Techlink\Blog\Models\Post;
+use Techlink\Blog\Services\BlogService;
 
 class AuthPostController extends Controller
 {
     private $modelName = 'posts';
+
+    private $service;
+
+    public function __construct(BlogService $service)
+    {
+        $this->service = $service;
+    }
 
     /**
      * Index Post view
@@ -55,6 +63,9 @@ class AuthPostController extends Controller
 
             $post->categories()->sync($request->categories);
 
+            //storing image
+            $this->service->addImage($request, $post);
+
             return $post;
         });
 
@@ -90,7 +101,11 @@ class AuthPostController extends Controller
                 'status' => $request->status,
             ]);
 
+            //syncing category
             $post->categories()->sync($request->categories);
+
+            //storing image
+            $this->service->addImage($request, $post);
         });
 
         return redirect($post->path())->with(config('blog.flash_variable'), 'Post has been updated.');
@@ -104,6 +119,7 @@ class AuthPostController extends Controller
     public function destroy(Post $post)
     {
         if($post->delete()) {
+            $post->images()->delete();
             return redirect()->route('blog::posts.index')->with(config('blog.flash_variable'), 'Post has been deleted.');
         }
 
