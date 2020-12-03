@@ -8,7 +8,7 @@
             <div class="card shadow">
                 <div class="card-body">
                     <div class="image">
-                        <img src="{{ asset($post->images->url) }}" alt="{{ $post->title }}" class="img-fluid" />
+                        <img src="{{ asset($post->images->url ?? null) }}" alt="{{ $post->title }}" class="img-fluid" />
                     </div>
                     <div class="content">
                         <h3 class="">
