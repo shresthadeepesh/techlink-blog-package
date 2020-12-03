@@ -53,6 +53,9 @@ class AuthCategoryController extends Controller
         //storing image
         $this->service->addImage($request, $category);
 
+        //adding meta
+        $this->service->addMeta($request, $category);
+
         return redirect()->route('blog::categories.auth.index')->with(config('blog.flash_variable'), 'Category has been created.');
     }
 
@@ -79,6 +82,8 @@ class AuthCategoryController extends Controller
 
         //storing image
         $this->service->addImage($request, $category);
+        //adding meta
+        $this->service->addMeta($request, $category);
 
         return redirect()->route('blog::categories.auth.index')->with(config('blog.flash_variable'), 'Category has been updated.');
     }

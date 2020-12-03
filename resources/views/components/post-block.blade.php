@@ -3,7 +3,7 @@
         <div class="card shadow">
             <div class="card-body">
                 <div class="image">
-                    <img src="{{ asset('vendor/techlink/blog/images/post.jpg') }}" alt="" class="img-fluid" />
+                    <img src="{{ asset($post->images->url ?? null) }}" alt="" class="img-fluid" />
                 </div>
                 <div class="content">
                     <h3 class="">

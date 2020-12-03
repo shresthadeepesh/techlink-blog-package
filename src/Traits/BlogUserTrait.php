@@ -5,7 +5,7 @@ namespace Techlink\Blog\Traits;
 use Techlink\Blog\Models\Category;
 use Techlink\Blog\Models\Post;
 
-trait UserRelationTrait
+trait BlogUserTrait
 {
     public function posts()
     {

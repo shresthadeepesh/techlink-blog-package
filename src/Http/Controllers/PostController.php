@@ -14,7 +14,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::ofStatus(Post::$published)
-            ->with('users', 'categories')
+            ->with('users', 'categories', 'images')
             ->latest()
             ->paginate(5);
         return view('blog::posts.index', compact('posts'));
@@ -28,8 +28,8 @@ class PostController extends Controller
     public function show($post)
     {
         $post = Post::ofStatus(Post::$published)
-            ->with('users', 'categories')
-            ->firstOrFail();
+            ->with('users', 'categories', 'images', 'meta')
+            ->findOrFail($post);
         return view('blog::posts.show', compact('post'));
     }
 }

@@ -42,7 +42,9 @@
                                 </td>
                             </tr>
                         @empty
-                            <h3 class="">No category found!</h3>
+                            <tr>
+                                <td colspan="100%" class="text-center">No category found!</td>
+                            </tr>
                         @endforelse
                         </tbody>
                     </table>

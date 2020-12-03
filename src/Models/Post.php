@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Techlink\Blog\Traits\HasFactoryTrait;
 use Techlink\Blog\Traits\ImageTrait;
+use Techlink\Blog\Traits\MetaTrait;
 use Techlink\Blog\Traits\SlugTrait;
 
 class Post extends Model
 {
-    use HasFactoryTrait, SlugTrait, ImageTrait;
+    use HasFactoryTrait, SlugTrait, ImageTrait, MetaTrait;
 
     protected $fillable = [
         'title', 'description', 'status', 'type', 'user_id'
@@ -41,5 +42,13 @@ class Post extends Model
     public function images()
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+
+    /**
+     * attaching meta relation
+     */
+    public function meta()
+    {
+        return $this->morphOne(Meta::class, 'metaable');
     }
 }

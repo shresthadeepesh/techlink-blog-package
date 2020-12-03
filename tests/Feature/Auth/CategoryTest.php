@@ -33,6 +33,9 @@ class CategoryTest extends TestCase
         return [
             'title' => 'A new post is here.',
             'description' => 'This is the post description',
+            'meta_title' => 'A new post is here.',
+            'meta_description' => 'This is the post description',
+            'meta_keywords' => "blog, test, cms, package"
         ];
     }
 
@@ -242,5 +245,26 @@ class CategoryTest extends TestCase
 
         // Assert the file was stored...
         Storage::disk('images')->assertMissing($file->hashName());
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_contains_category_meta_info_in_the_db_when_creating()
+    {
+        $this->post(route('blog::categories.auth.store'), $this->categoryData())
+            ->assertStatus(302)
+            ->assertSessionHas(config('blog.flash_variable'), 'Category has been created.');
+
+        $this->assertCount(1, Category::all());
+
+        $this->assertDatabaseHas('metas', [
+            'id' => 1,
+            'title' => 'A new post is here.',
+            'description' => 'This is the post description',
+            'keywords' => "blog, test, cms, package",
+            'metaable_id' => 1,
+            'metaable_type' => 'Techlink\\Blog\\Models\\Category'
+        ]);
     }
 }

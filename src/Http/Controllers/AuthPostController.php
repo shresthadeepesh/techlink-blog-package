@@ -65,6 +65,8 @@ class AuthPostController extends Controller
 
             //storing image
             $this->service->addImage($request, $post);
+            //adding meta
+            $this->service->addMeta($request, $post);
 
             return $post;
         });
@@ -106,6 +108,8 @@ class AuthPostController extends Controller
 
             //storing image
             $this->service->addImage($request, $post);
+            //adding meta
+            $this->service->addMeta($request, $post);
         });
 
         return redirect($post->path())->with(config('blog.flash_variable'), 'Post has been updated.');

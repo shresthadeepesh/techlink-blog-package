@@ -1,19 +1,19 @@
     <x-blog-input-text
         name="title"
         placeholder="This is a post title"
-        :value="$model->title"
+        :value="$model->title ?? null"
         label="Post Title" />
 
     <x-blog-input-textarea
             name="description"
             placeholder="This is a post description"
-            :value="$model->description"
+            :value="$model->description ?? null"
             label="Post Description" />
 
     <x-blog-input-select
             name="categories[]"
             :options="$category"
-            :value="$model->categories->modelKeys()"
+            :value="$model->categories->modelKeys() ?? null"
             label="Select Category"
             multiple="true"
     />
@@ -36,5 +36,7 @@
             name="image"
             label="Choose file"
     />
+
+    @include('blog::meta._form')
 
     <x-blog-input-submit />
