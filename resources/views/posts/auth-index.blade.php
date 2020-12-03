@@ -17,6 +17,7 @@
                         <tr>
                             <th>#</th>
                             <th>Title</th>
+                            <th>Image</th>
                             <th>User</th>
                             <th>Created</th>
                             <th>Edit</th>
@@ -28,6 +29,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $post->title }}</td>
+                                <th><img src="{{ asset($post->images->url) }}" alt="" style="height: 75px;" /></th>
                                 <td>{{ $post->users->name}}</td>
                                 <td>{{ $post->created_at->diffForHumans() }}</td>
                                 <td><a href="{{ route('blog::posts.auth.edit', $post->id) }}" class="btn btn-success">Edit</a></td>

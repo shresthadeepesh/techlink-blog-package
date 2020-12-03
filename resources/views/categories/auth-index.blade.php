@@ -17,6 +17,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
+                                <th>Image</th>
                                 <th>Posts</th>
                                 <th>User</th>
                                 <th>Created</th>
@@ -29,6 +30,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $category->title }}</td>
+                                <th><img src="{{ asset($category->images->url) }}" alt="" style="height: 75px;" /></th>
                                 <td>{{ $category->posts_count }}</td>
                                 <td>{{ $category->users->name}}</td>
                                 <td>{{ $category->created_at->diffForHumans() }}</td>
