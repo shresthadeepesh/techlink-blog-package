@@ -12,7 +12,10 @@
             Techlink | Blog
         @endif
     </title>
+    <meta name="robots" content="index, follow">
+    @stack('meta')
     <link rel="stylesheet" href="{{ asset('vendor/techlink/blog/css/bootstrap.min.css') }}">
+    @stack('styles')
     <style>
         .invalid-feedback {
             display: block;
@@ -25,5 +28,6 @@
         @yield('content')
     </div>
 
+    @stack('scripts')
 </body>
 </html>

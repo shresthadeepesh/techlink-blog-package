@@ -2,6 +2,16 @@
 
 @section('title', "$post->title")
 
+@push('meta')
+    <x-blog-meta
+            :title="$post->meta->title"
+            :description="$post->meta->description"
+            :keywords="$post->meta->keywords"
+            image="$post->images->url ?? null"
+            :url="url()->current()"
+    />
+@endpush
+
 @section('content')
     <div class="container">
         <div class="col-12">

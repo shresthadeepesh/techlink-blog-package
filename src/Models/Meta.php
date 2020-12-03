@@ -4,9 +4,12 @@
 namespace Techlink\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Techlink\Blog\Traits\HasFactoryTrait;
 
 class Meta extends Model
 {
+    use HasFactoryTrait;
+
     protected $fillable = [
       'title', 'description', 'keywords'
     ];
