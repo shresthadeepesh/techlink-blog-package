@@ -3,14 +3,11 @@
 
 namespace Techlink\Blog\Providers;
 
-use Illuminate\Http\File;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\View;
 use Techlink\Blog\Console\Commands\BlogCommand;
-use Techlink\Blog\Http\Middleware\SlugMiddleware;
+use Techlink\Blog\Http\Middleware\ForgetSlugMiddleware;
 use Techlink\Blog\View\Components\Alert;
 use Techlink\Blog\View\Components\InputFile;
 use Techlink\Blog\View\Components\InputSelect;
@@ -56,7 +53,7 @@ class BlogProvider extends ServiceProvider
 
         //register the middleware
         $router = $this->app->make(Router::class);
-        $router->aliasMiddleware('slug', SlugMiddleware::class);
+        $router->aliasMiddleware('slug', ForgetSlugMiddleware::class);
     }
 
     private function registerResources()
