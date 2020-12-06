@@ -14,7 +14,7 @@
     </title>
     <meta name="robots" content="index, follow">
     @stack('meta')
-    <link rel="stylesheet" href="{{ asset('vendor/techlink/blog/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/techlink/blog/css/style.css') }}">
     @stack('styles')
     <style>
         .invalid-feedback {
@@ -23,7 +23,7 @@
     </style>
 </head>
 <body>
-    <div class="my-5">
+    <div class="my-10">
         <x-blog-alert></x-blog-alert>
         @yield('content')
     </div>

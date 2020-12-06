@@ -3,15 +3,15 @@
 
 namespace Techlink\Blog\Http\Interfaces;
 
-
+use Techlink\Blog\Http\Requests\PostRequest;
 use Techlink\Blog\Models\Post;
 
-interface AuthInterface
+interface PostInterface
 {
     public function index();
-    public function create();
-    public function edit();
-    public function store();
-    public function update();
+    public function create(Post $post);
+    public function edit(Post $post);
+    public function store(PostRequest $request);
+    public function update(PostRequest $request, Post $post);
     public function destroy(Post $post);
 }

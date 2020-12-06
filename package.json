@@ -1,0 +1,32 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "This first blog package developed by me, since cms are almost a necessity for everyone.\r  Here is a free open source starter boiler plate which is well tested with various assertions..",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "prod": "cross-env NODE_ENV=production postcss resources/css/style.css -o public/assets/css/style.css",
+    "build:css": "postcss resources/css/style.css -o public/assets/css/style.css",
+    "watch:css": "postcss -w resources/css/style.css -o public/assets/css/style.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JustaNormalDreamer/techlink-blog-package.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JustaNormalDreamer/techlink-blog-package/issues"
+  },
+  "homepage": "https://github.com/JustaNormalDreamer/techlink-blog-package#readme",
+  "dependencies": {
+    "autoprefixer": "^10.0.4",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.1.13",
+    "postcss-cli": "^8.3.0",
+    "tailwindcss": "^2.0.1"
+  }
+}

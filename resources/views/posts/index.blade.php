@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
             @if(isset($posts) && $posts->count() > 0)
-                <div class="row">
+                <div class="flex flex-wrap">
                     @forelse($posts as $post)
                         <x-blog-post-block :post="$post" />
                     @empty

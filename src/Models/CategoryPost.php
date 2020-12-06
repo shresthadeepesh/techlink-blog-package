@@ -3,8 +3,9 @@
 
 namespace Techlink\Blog\Models;
 
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class CategoryPost
+class CategoryPost extends Pivot
 {
-
+    protected $table = 'category_post';
 }

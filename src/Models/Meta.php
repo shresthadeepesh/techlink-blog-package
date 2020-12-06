@@ -10,6 +10,8 @@ class Meta extends Model
 {
     use HasFactoryTrait;
 
+    protected $table = 'metas';
+
     protected $fillable = [
       'title', 'description', 'keywords'
     ];

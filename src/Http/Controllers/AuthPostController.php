@@ -5,12 +5,13 @@ namespace Techlink\Blog\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Techlink\Blog\Http\Interfaces\PostInterface;
 use Techlink\Blog\Http\Requests\PostRequest;
 use Techlink\Blog\Models\Category;
 use Techlink\Blog\Models\Post;
 use Techlink\Blog\Services\BlogService;
 
-class AuthPostController extends Controller
+class AuthPostController extends Controller implements PostInterface
 {
     private $modelName = 'posts';
 

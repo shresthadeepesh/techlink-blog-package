@@ -4,8 +4,8 @@
 
 @section('content')
     <div class="container">
-        <div class="card shadow">
-            <div class="card-body">
+        <div class="shadow-md hover:shadow-xl transition-hover duration-500 rounded-md">
+            <div class="p-5">
                 <form action="{{ route("blog::{$modelName}.auth.store") }}" method="POST" enctype="multipart/form-data">
                     @method('POST')
                     @csrf

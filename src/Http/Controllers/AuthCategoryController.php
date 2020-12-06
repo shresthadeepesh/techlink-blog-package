@@ -4,11 +4,12 @@ namespace Techlink\Blog\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Techlink\Blog\Http\Interfaces\CategoryInterface;
 use Techlink\Blog\Http\Requests\CategoryRequest;
 use Techlink\Blog\Models\Category;
 use Techlink\Blog\Services\BlogService;
 
-class AuthCategoryController extends Controller
+class AuthCategoryController extends Controller implements CategoryInterface
 {
     private $modelName = 'categories';
 
@@ -76,7 +77,7 @@ class AuthCategoryController extends Controller
      * @param CategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Category $category, CategoryRequest $request)
+    public function update(CategoryRequest $request, Category $category)
     {
         $category->update($request->all());
 

@@ -14,19 +14,27 @@
 
 @section('content')
     <div class="container">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-body">
+            <div class="shadow-lg">
+                @if($post->images)
                     <div class="image">
-                        <img src="{{ asset($post->images->url ?? null) }}" alt="{{ $post->title }}" class="img-fluid" />
+                        <img src="{{ asset($post->images->url ?? null) }}" alt="{{ $post->title }}" class="h-80 w-full" />
                     </div>
-                    <div class="content">
-                        <h3 class="">
+                @endif
+                    <div class="content p-5 space-y-5">
+                        <h3 class="text-4xl font-display font-bold text-center">
                             {{ $post->title ?? 'This is the default post header.' }}
                         </h3>
-                        <p class="lead">{{ $post->description ?? null }}</p>
+
+                        <ul class="list-none space-x-1 text-primary text-center">
+                            <li class="inline">Published: {{ $post->created_at->diffForHumans() }}</li>
+                            <li class="inline">Updated: {{ $post->updated_at->diffForHumans() }}</li>
+                            <li class="inline"><a href="#0" class="">{{ $post->users->name }}</a></li>
+                        </ul>
+
+                        <div class="body text-primary font-body text-lg leading-relaxed">
+                            {{ $post->description ?? null }}
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>

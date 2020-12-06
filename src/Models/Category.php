@@ -13,6 +13,8 @@ class Category extends Model
 {
     use HasFactoryTrait, SlugTrait, ImageTrait, MetaTrait;
 
+    protected $table = 'categories';
+
     protected $fillable = [
         'title', 'description', 'user_id'
     ];
@@ -24,7 +26,7 @@ class Category extends Model
 
     public function posts()
     {
-        return $this->belongsToMany(Post::class);
+        return $this->belongsToMany(Post::class, 'category_post');
     }
 
     /**

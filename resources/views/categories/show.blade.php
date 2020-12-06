@@ -14,15 +14,15 @@
 
 @section('content')
     <div class="container">
-        <div class="content text-center">
-            <h3 class="">{{ $category->title }}</h3>
-            <p class="lead">{{ $category->description }}</p>
+        <div class="content text-center space-y-5 my-5">
+            <h3 class="text-5xl font-display font-bold">Category: {{ $category->title }}</h3>
+            <p class="font-body text-primary text-xl">{{ $category->description }}</p>
         </div>
-        <div class="row">
+        <div class="flex flex-wrap">
             @forelse($category->posts as $post)
                 <x-blog-post-block :post="$post" />
             @empty
-                <h3 class="">No posts found.</h3>
+                <h3 class="text-3xl font-display">No posts found.</h3>
             @endforelse
         </div>
     </div>
