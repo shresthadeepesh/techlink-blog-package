@@ -10,7 +10,7 @@ trait ImageTrait
     {
         static::deleted(function($model) {
             if($model->images) {
-                $model->images->delete();
+                $model->images()->delete();
                 Storage::delete($model->images->url);
             }
         });

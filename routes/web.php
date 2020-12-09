@@ -5,6 +5,7 @@ use Techlink\Blog\Http\Controllers\AuthCategoryController;
 use Techlink\Blog\Http\Controllers\AuthPostController;
 use Techlink\Blog\Http\Controllers\CategoryController;
 use Techlink\Blog\Http\Controllers\PostController;
+use Techlink\Blog\Http\Controllers\AuthCommentController;
 
 
 
@@ -37,4 +38,14 @@ Route::as('categories.')->group(function() {
        Route::delete('categories/{category:id}', [AuthCategoryController::class, 'destroy'])->name('destroy');
        Route::put('categories/{category}', [AuthCategoryController::class, 'update'])->name('update');
    });
+});
+
+//comment routes
+Route::as('comments.')->group(function() {
+
+    Route::as('auth.')->middleware('auth')->prefix('auth')->group(function() {
+        Route::get('comments', [AuthCommentController::class, 'index'])->name('index');
+        Route::post('comments/{post}', [AuthCommentController::class, 'store'])->name('store');
+        Route::delete('comments/{comment:id}', [AuthCommentController::class, 'destroy'])->name('destroy');
+    });
 });

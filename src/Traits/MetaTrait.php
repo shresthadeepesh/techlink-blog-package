@@ -10,7 +10,7 @@ trait MetaTrait
     {
         static::deleted(function($model) {
             if($model->meta) {
-                $model->meta->delete();
+                $model->meta()->delete();
             }
         });
     }

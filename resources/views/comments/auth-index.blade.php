@@ -1,21 +1,17 @@
 @extends('blog::layouts.master')
 
-@section('title', 'Posts Index')
+@section('title', 'Comments Index')
 
 @section('content')
     <x-blog-model-table
-            title="Posts Index"
+            title="Comments Index"
             description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusamus alias culpa cum eaque id itaque laboriosam omnis soluta voluptatum."
             :fillables="[
-                    'title' => 'title',
-                    'image' => 'images',
-                    'description' => 'description',
                     'user' => 'users',
-                    'keywords' => 'meta',
-                    'comments count' => 'comments_count',
+                    'description' => 'description',
                     'date' => 'created_at'
                 ]"
-            :models="$posts"
-            type="posts"
+            :models="$comments"
+            type="comments"
     />
 @endsection

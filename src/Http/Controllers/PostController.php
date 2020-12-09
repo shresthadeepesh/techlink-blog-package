@@ -28,7 +28,7 @@ class PostController extends Controller
     public function show($post)
     {
         $post = Post::ofStatus(Post::$published)
-            ->with('users', 'categories', 'images', 'meta')
+            ->with('users', 'categories', 'images', 'meta', 'comments')
             ->findOrFail($post);
         return view('blog::posts.show', compact('post'));
     }

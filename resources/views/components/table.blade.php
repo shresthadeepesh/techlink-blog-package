@@ -14,8 +14,12 @@
                         @foreach($fillables as $key => $value)
                             <th class="w-1/4 border">{{ Str::title($key) }}</th>
                         @endforeach
-                        <th class="w-1/4 border">Edit</th>
-                        <th class="w-1/4 border">Delete</th>
+                        @if(Route::has("blog::{$type}.auth.edit"))
+                            <th class="w-1/4 border">Edit</th>
+                        @endif
+                        @if(Route::has("blog::{$type}.auth.destroy"))
+                            <th class="w-1/4 border">Delete</th>
+                        @endif
                     </tr>
                     </thead>
                     <tbody>
@@ -48,14 +52,18 @@
 
                                 @endforeach
 {{--                                end the loop for fillables--}}
-                                <td class="border"><a href="{{ route("blog::{$type}.auth.edit", $model->id) }}" class="btn btn-primary">Edit</a></td>
-                                <td class="border">
-                                    <form action="{{ route("blog::{$type}.auth.destroy", $model->id) }}" method="POST">
-                                        @csrf
-                                        @method("DELETE")
-                                        <input type="submit" value="Delete" class="btn btn-danger">
-                                    </form>
-                                </td>
+                                @if(Route::has("blog::{$type}.auth.edit"))
+                                    <td class="border"><a href="{{ route("blog::{$type}.auth.edit", $model->id) }}" class="btn btn-primary">Edit</a></td>
+                                @endif
+                                @if(Route::has("blog::{$type}.auth.destroy"))
+                                    <td class="border">
+                                        <form action="{{ route("blog::{$type}.auth.destroy", $model->id) }}" method="POST">
+                                            @csrf
+                                            @method("DELETE")
+                                            <input type="submit" value="Delete" class="btn btn-danger">
+                                        </form>
+                                    </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

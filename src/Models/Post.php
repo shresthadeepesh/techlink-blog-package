@@ -5,6 +5,7 @@ namespace Techlink\Blog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
+use Techlink\Blog\Traits\CommentTrait;
 use Techlink\Blog\Traits\HasFactoryTrait;
 use Techlink\Blog\Traits\ImageTrait;
 use Techlink\Blog\Traits\MetaTrait;
@@ -12,7 +13,7 @@ use Techlink\Blog\Traits\SlugTrait;
 
 class Post extends Model
 {
-    use HasFactoryTrait, SlugTrait, ImageTrait, MetaTrait;
+    use HasFactoryTrait, SlugTrait, ImageTrait, MetaTrait, CommentTrait;
 
     protected $table = 'posts';
 
@@ -52,5 +53,13 @@ class Post extends Model
     public function meta()
     {
         return $this->morphOne(Meta::class, 'metaable');
+    }
+
+    /**
+     * attaching post comments
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

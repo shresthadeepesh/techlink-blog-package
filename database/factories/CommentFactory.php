@@ -3,16 +3,17 @@
 namespace Techlink\Blog\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Techlink\Blog\Models\Meta;
+use Techlink\Blog\Models\Comment;
+use Techlink\Blog\Tests\User;
 
-class MetaFactory extends Factory
+class CommentFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var stringA
      */
-    protected $model = Meta::class;
+    protected $model = Comment::class;
 
     /**
      * Define the model's default state.
@@ -21,10 +22,12 @@ class MetaFactory extends Factory
      */
     public function definition()
     {
+        $user = collect(User::all()->modelKeys());
+
         return [
-            'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph($nbSentences = 30, $variableNbSentences = true),
-            'keywords' => $this->faker->sentence,
+            'status' => 1,
+            'user_id' => $this->faker->randomElement($user),
         ];
     }
 }
