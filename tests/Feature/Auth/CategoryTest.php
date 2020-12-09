@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Techlink\Blog\Models\Meta;
 use Techlink\Blog\Models\Post;
 use Techlink\Blog\Tests\TestCase;
 use Techlink\Blog\Models\Category;
@@ -44,7 +45,11 @@ class CategoryTest extends TestCase
      */
     public function test_it_returns_auth_category_index_view_with_data()
     {
-        Category::factory(10)->create();
+        Category::factory(10)->create()->each(function($category) {
+            $meta = Meta::factory()->make();
+            $category->meta()->save($meta);
+        });
+
         $this->get(route('blog::categories.auth.index'))
             ->assertOk()
             ->assertViewIs('blog::categories.auth-index')
@@ -56,6 +61,8 @@ class CategoryTest extends TestCase
      */
     public function test_it_is_able_to_create_a_new_category()
     {
+        $this->withoutExceptionHandling();
+
         $this->post(route('blog::categories.auth.store'), $this->categoryData())
             ->assertStatus(302)
             ->assertSessionHas(config('blog.flash_variable'), 'Category has been created.');

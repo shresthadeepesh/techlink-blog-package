@@ -16,7 +16,7 @@ class Category extends Model
     protected $table = 'categories';
 
     protected $fillable = [
-        'title', 'description', 'user_id'
+        'title', 'description', 'user_id', 'parent_id'
     ];
 
     public function users()
@@ -27,6 +27,11 @@ class Category extends Model
     public function posts()
     {
         return $this->belongsToMany(Post::class, 'category_post');
+    }
+
+    public function child()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
     }
 
     /**

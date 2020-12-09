@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Techlink\Blog\Models\Category;
+use Techlink\Blog\Models\Meta;
 use Techlink\Blog\Tests\TestCase;
 use Techlink\Blog\Models\Post;
 use Techlink\Blog\Tests\User;
@@ -48,7 +49,11 @@ class PostTest extends TestCase
      */
     public function test_it_returns_post_auth_index_with_data()
     {
-        Post::factory(50)->create();
+       Post::factory(10)->create()->each(function($post) {
+            $meta = Meta::factory()->make();
+            $post->meta()->save($meta);
+        });
+
         $this->get(route('blog::posts.auth.index'))->assertOk()
             ->assertViewIs('blog::posts.auth-index')
             ->assertViewHas('posts');

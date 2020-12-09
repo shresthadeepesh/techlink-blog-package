@@ -4,6 +4,7 @@ namespace Techlink\Blog\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Techlink\Blog\Http\Interfaces\CategoryInterface;
 use Techlink\Blog\Http\Requests\CategoryRequest;
 use Techlink\Blog\Models\Category;
@@ -26,6 +27,7 @@ class AuthCategoryController extends Controller implements CategoryInterface
     public function index()
     {
         $categories = Category::latest()
+            ->with('meta', 'images', 'users')
             ->withCount('posts')
             ->paginate(config('blog.auth_model_paginate'));
         return view('blog::categories.auth-index', compact('categories'));
@@ -49,13 +51,15 @@ class AuthCategoryController extends Controller implements CategoryInterface
      */
     public function store(CategoryRequest $request)
     {
-        $category = Auth::user()->categories()->create($request->all());
+        DB::transaction(function() use ($request) {
+            $category = Auth::user()->categories()->create($request->only('title', 'description', 'parent_id'));
 
-        //storing image
-        $this->service->addImage($request, $category);
+            //storing image
+            $this->service->addImage($request, $category);
 
-        //adding meta
-        $this->service->addMeta($request, $category);
+            //adding meta
+            $this->service->addMeta($request, $category);
+        });
 
         return redirect()->route('blog::categories.auth.index')->with(config('blog.flash_variable'), 'Category has been created.');
     }
@@ -79,12 +83,14 @@ class AuthCategoryController extends Controller implements CategoryInterface
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $category->update($request->all());
+        DB::transaction(function() use ($request, $category) {
+            $category->update($request->only('title', 'description', 'parent_id'));
 
-        //storing image
-        $this->service->addImage($request, $category);
-        //adding meta
-        $this->service->addMeta($request, $category);
+            //storing image
+            $this->service->addImage($request, $category);
+            //adding meta
+            $this->service->addMeta($request, $category);
+        });
 
         return redirect()->route('blog::categories.auth.index')->with(config('blog.flash_variable'), 'Category has been updated.');
     }

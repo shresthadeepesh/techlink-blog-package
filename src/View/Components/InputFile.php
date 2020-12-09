@@ -22,7 +22,7 @@ class InputFile extends Component
     {
         return view('blog::components.input-file', [
             'name' => $this->name,
-            'label' => $this->label,
+            'label' => $this->label
         ]);
     }
 }

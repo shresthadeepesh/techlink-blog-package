@@ -15,6 +15,7 @@ use Techlink\Blog\View\Components\InputSubmit;
 use Techlink\Blog\View\Components\InputText;
 use Techlink\Blog\View\Components\InputTextarea;
 use Techlink\Blog\View\Components\Meta;
+use Techlink\Blog\View\Components\ModelTable;
 use Techlink\Blog\View\Components\PostBlock;
 
 class BlogProvider extends ServiceProvider
@@ -137,6 +138,7 @@ class BlogProvider extends ServiceProvider
             InputSubmit::class,
             InputFile::class,
             Meta::class,
+            ModelTable::class,
         ]);
     }
 }

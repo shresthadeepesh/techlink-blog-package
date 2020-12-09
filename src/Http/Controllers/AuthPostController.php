@@ -28,7 +28,7 @@ class AuthPostController extends Controller implements PostInterface
      */
     public function index()
     {
-        $posts = Post::with('users', 'categories')
+        $posts = Post::with('users', 'categories', 'images', 'meta')
             ->latest()
             ->paginate(config('blog.auth_model_paginate'));
         return view('blog::posts.auth-index', compact('posts'));

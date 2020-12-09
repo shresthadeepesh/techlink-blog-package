@@ -12,7 +12,7 @@ class ForgetSlugMiddlewareTest extends TestCase
     /**
      * @test
      */
-    public function test_it_forgets_the_slugw_param_in_the_url()
+    public function test_it_forgets_the_slug_param_in_the_url()
     {
         $request = new Request;
 
