@@ -1,7 +1,7 @@
 <div class="form-group">
     <label for="{{ $name }}">{{ $label }}</label>
     <select
-            class="form-control custom-select @error($errorName) is-invalid @enderror"
+            class="form-control select-multiple custom-select @error($errorName) is-invalid @enderror"
             name="{{ $name }}"
             {{ $multiple ? 'multiple' : '' }}>
         <option value="">Choose a {{ Str::singular($errorName) }}</option>

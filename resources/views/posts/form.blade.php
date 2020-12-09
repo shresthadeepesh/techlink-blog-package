@@ -35,6 +35,7 @@
     <x-blog-input-file
             name="image"
             label="Choose file"
+            :value="$model->images->url ?? null"
     />
 
     @include('blog::meta._form')

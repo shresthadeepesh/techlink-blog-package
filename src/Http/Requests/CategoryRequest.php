@@ -26,6 +26,7 @@ class CategoryRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'description' => 'required',
+            'parent_id' => 'exists:categories,id',
             'image' => 'nullable|file|mimes:jpeg,jpg,png|max:512',
             'meta_title' => 'required|max:255',
             'meta_keywords' => 'required|max:255',

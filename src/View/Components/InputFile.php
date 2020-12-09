@@ -7,12 +7,13 @@ use Illuminate\View\Component;
 
 class InputFile extends Component
 {
-    private $name, $label;
+    private $name, $label, $value;
 
-    public function __construct($name, $label)
+    public function __construct($name, $label, $value)
     {
         $this->name = $name;
         $this->label = $label;
+        $this->value = $value;
     }
 
     /**
@@ -22,7 +23,8 @@ class InputFile extends Component
     {
         return view('blog::components.input-file', [
             'name' => $this->name,
-            'label' => $this->label
+            'label' => $this->label,
+            'value' => $this->value
         ]);
     }
 }
