@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Techlink\Blog\Http\Controllers\AuthCommentController;
 use Techlink\Blog\Http\Controllers\AuthCategoryController;
 use Techlink\Blog\Http\Controllers\AuthPostController;
 use Techlink\Blog\Http\Controllers\CategoryController;
 use Techlink\Blog\Http\Controllers\PostController;
-use Techlink\Blog\Http\Controllers\AuthCommentController;
-
+use Techlink\Blog\Http\Controllers\PageController;
 
 
 
@@ -48,4 +48,10 @@ Route::as('comments.')->group(function() {
         Route::post('comments/{post}', [AuthCommentController::class, 'store'])->name('store');
         Route::delete('comments/{comment:id}', [AuthCommentController::class, 'destroy'])->name('destroy');
     });
+});
+
+
+//page routes
+Route::as('pages.')->group(function() {
+    Route::get('{page}', PageController::class)->name('show');
 });

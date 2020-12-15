@@ -29,6 +29,11 @@ class Post extends Model
         return $query->where('status', $status);
     }
 
+    public function scopePage($query)
+    {
+        return $query->where('type', 'page');
+    }
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
