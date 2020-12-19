@@ -9,6 +9,7 @@
         }
     ],
     "require": {},
+    "minimum-stability": "dev",
     "require-dev": {
         "orchestra/testbench": "^6.4"
     },

@@ -27,7 +27,7 @@
 
     <x-blog-input-select
             name="type"
-            :options="['standard' => 'Standard', 'quote' => 'Quote']"
+            :options="['post' => 'Post', 'page' => 'Page']"
             :value="$model->type"
             label="Select Status"
     />

@@ -14,7 +14,7 @@ class PageController extends Controller
             return view("blog::pages.{$page}");
         }
 
-        $post = Post::page()->ofStatus(Post::$published)->with('users', 'meta', 'image')
+        $post = Post::ofType('page')->ofStatus(Post::$published)->with('users', 'meta', 'image')
             ->firstOrFail();
         return view('blog::posts.show', compact('post'));
     }

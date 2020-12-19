@@ -29,9 +29,9 @@ class Post extends Model
         return $query->where('status', $status);
     }
 
-    public function scopePage($query)
+    public function scopeOfType($query, string $type)
     {
-        return $query->where('type', 'page');
+        return $query->where('type', $type);
     }
 
     public function users()
